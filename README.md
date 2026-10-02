@@ -41,6 +41,10 @@ pip install yantrikdb-mcp
 pip install 'yantrikdb-mcp[onnx]'
 ```
 
+**Using Claude Code?** Skip the pip step: `/plugin marketplace add
+yantrikos/yantrikdb-mcp` then `/plugin install yantrikdb` — installs straight
+from this repo, no PyPI round-trip.
+
 > **Upgrading from v0.5.x?** Your existing database stays at 384 dim — install
 > the `[onnx]` extra to keep using it transparently. New installs default to
 > the lean bundled embedder. v0.7.0+ pins the engine migration fix automatically.
