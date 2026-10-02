@@ -1,0 +1,17 @@
+{
+  "name": "yantrikdb-mcp",
+  "owner": {
+    "name": "Pranab Sarkar",
+    "email": "developer@pranab.co.in"
+  },
+  "metadata": {
+    "description": "Self-hosted Claude Code marketplace for the YantrikDB MCP plugin."
+  },
+  "plugins": [
+    {
+      "name": "yantrikdb",
+      "source": "./",
+      "description": "Cognitive memory for AI agents — semantic recall, a knowledge graph, contradiction detection and procedural learning. Local-first: one SQLite file, no account, no telemetry."
+    }
+  ]
+}
