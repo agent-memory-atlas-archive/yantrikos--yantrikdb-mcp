@@ -25,7 +25,7 @@ Works with Claude Code, Cursor, Windsurf, [Hermes Agent](docs/hermes.md), [Prime
 | **Works with** | Claude Code, Cursor, Windsurf, Continue, Claude Desktop, [Hermes Agent](docs/hermes.md), [Prime Agent](docs/prime-agent.md), any MCP client |
 | **Storage** | Local SQLite at `~/.yantrikdb/memory.db` (or any path; or HTTP cluster) |
 | **Embedder** | Bundled 64-dim Rust embedder (default), 384-dim ONNX MiniLM (`[onnx]` extra), 256-dim multilingual (101 languages) |
-| **Tools** | 20 — remember, recall, forget, correct, think, memory, graph, conflict, trigger, session, temporal, procedure, category, personality, stats, skill, gaps, conversation, task, atlas |
+| **Tools** | 21 — remember, recall, forget, correct, think, memory, graph, conflict, trigger, session, temporal, procedure, category, personality, stats, skill, gaps, conversation, task, pack, atlas |
 | **License** | MIT (engine: Apache-2.0) |
 | **Privacy** | All data on your machine. No telemetry. No external services. |
 
@@ -185,7 +185,7 @@ File-based memory (CLAUDE.md, memory files) loads **everything** into context ev
 - YantrikDB stays at ~70 tokens per query, under 60ms latency
 - Precision *improves* with more data — the opposite of context stuffing
 
-Run the benchmark yourself: `git clone https://github.com/yantrikos/yantrikdb-mcp && cd yantrikdb-mcp && python benchmarks/bench_token_savings.py`
+Run the benchmark yourself: `git clone https://github.com/yantrikos/yantrikdb-mcp && cd yantrikdb-mcp && pip install -e '.[torch]' && python benchmarks/bench_token_savings.py` (the script loads `sentence-transformers` directly, which isn't installed by the default `pip install yantrikdb-mcp`).
 
 ## Recommended agent workflow (golden path)
 
@@ -199,7 +199,7 @@ The server injects a golden-path playbook into the agent's system prompt. Since 
 
 ## Tools
 
-20 tools, full engine coverage (`gaps`, `conversation`, `task` added in v0.9.0; `atlas` added in v0.24.0):
+21 tools, full engine coverage (`gaps`, `conversation`, `task` added in v0.9.0; `pack` added in v0.11.0; `atlas` added in v0.24.0):
 
 | Tool | Actions | Purpose |
 |---|---|---|
@@ -222,6 +222,7 @@ The server injects a golden-path playbook into the agent's system prompt. Since 
 | `gaps` | — | **v0.9.0** — surface frequently-asked, poorly-answered queries (substrate's known unknowns) |
 | `conversation` | record / recent / clear | **v0.9.0** — bounded encrypted ring buffer for verbatim conversation turns, namespace-isolated |
 | `task` | add / get / list / update / delete | **v0.9.0** — substrate-backed task / chore store; survives sessions, surfaces in `session(action="digest")` |
+| `pack` | list / inspect / install / mount / trust | **v0.11.0** — signed, portable memory bundles: inspect a sealed corpus before trusting it, install/mount it read-alongside your own memories (down-weighted vs local), manage publisher trust. Write actions operator-gated (`YANTRIKDB_ENABLE_PACK_WRITES=1`) |
 | `atlas` | export / status | **v0.24.0** — export this store's Memory Atlas (every memory, entity links, claims, revision history, tasks) as a static page and serve it on localhost; read-only, embedded mode only |
 
 Plus new actions on existing tools in v0.9.0:
@@ -343,7 +344,7 @@ Outcomes are append-only events in the `outcome_substrate` namespace — no auto
 
 ### What is YantrikDB MCP?
 
-YantrikDB MCP is a Model Context Protocol (MCP) server that gives AI agents persistent cognitive memory across sessions. It exposes 20 tools (remember, recall, forget, correct, think, graph, conflict, trigger, session, temporal, procedure, category, personality, stats, memory, skill, gaps, conversation, task, atlas) that any MCP-compatible client — Claude Code, Cursor, Windsurf, Continue, Claude Desktop — can call automatically without prompting.
+YantrikDB MCP is a Model Context Protocol (MCP) server that gives AI agents persistent cognitive memory across sessions. It exposes 21 tools (remember, recall, forget, correct, think, graph, conflict, trigger, session, temporal, procedure, category, personality, stats, memory, skill, gaps, conversation, task, pack, atlas) that any MCP-compatible client — Claude Code, Cursor, Windsurf, Continue, Claude Desktop — can call automatically without prompting.
 
 ### How is this different from file-based memory like CLAUDE.md?
 
@@ -479,6 +480,7 @@ Same memory substrate, different entry points:
 - [langchain-yantrikdb](https://github.com/yantrikos/langchain-yantrikdb) — YantrikDB as a LangChain `VectorStore` and `ChatMessageHistory`.
 - [yantrikdb-hermes-plugin](https://github.com/yantrikos/yantrikdb-hermes-plugin) — memory provider for NousResearch/hermes-agent, sharing the same skill substrate.
 - [yantrik-memory](https://github.com/yantrikos/yantrik-memory) — framework-agnostic memory layer with traits and bond evolution.
+- [openclaw-memory-yantrikdb](https://github.com/yantrikos/openclaw-memory-yantrikdb) — OpenClaw memory-slot plugin backed by YantrikDB, published on ClawHub.
 
 ## License
 

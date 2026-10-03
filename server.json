@@ -24,7 +24,7 @@
         },
         {
           "name": "YANTRIKDB_TOOL_PROFILE",
-          "description": "Advertised tool set: full (all 20) or core (10 golden-path)",
+          "description": "Advertised tool set: full (all 21) or core (10 golden-path)",
           "isRequired": false,
           "isSecret": false
         }
